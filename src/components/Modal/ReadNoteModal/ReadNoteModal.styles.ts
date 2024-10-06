@@ -13,6 +13,12 @@ export const Box = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-end;
+
+    cursor: default;
+
+    svg {
+      cursor: pointer;
+    }
   }
 
   .readNote__title {

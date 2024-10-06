@@ -29,11 +29,8 @@ const ReadNoteModal = ({ note, type }: ReadNoteModalProps) => {
       onClick={(e) => backgroundClickHandler(e)}
     >
       <Box style={{ backgroundColor: note.color }}>
-        <DeleteBox
-          onClick={() => dispatch(readNote({ type, id: note.id }))}
-          className="readNote__close-btn"
-        >
-          <FaTimes />
+        <DeleteBox className="readNote__close-btn">
+          <FaTimes onClick={() => dispatch(readNote({ type, id: note.id }))} />
         </DeleteBox>
         <div className="readNote__title">{note.title}</div>
         <div className="readNote__content">{parse(note.content)}</div>
