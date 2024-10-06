@@ -57,9 +57,11 @@ const Sidebar = () => {
               <span>
                 <FaLightbulb />
               </span>
-              <span>Notes</span>
+              <span>All Notes</span>
             </NavLink>
           </li>
+
+          <hr />
 
           {/* edit tag item */}
           <li
@@ -91,6 +93,8 @@ const Sidebar = () => {
               </NavLink>
             </li>
           ))}
+
+          <hr />
 
           {/* other items */}
           {items.map(({ icon, title, id }) => (
