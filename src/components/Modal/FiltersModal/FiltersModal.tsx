@@ -64,7 +64,7 @@ const FiltersModal = ({
               checked={filter === "high"}
               onChange={(e) => handleFilter(e)}
             />
-            <label htmlFor="low">High to Low</label>
+            <label htmlFor="high">High to Low</label>
           </div>
         </Box>
 
