@@ -45,6 +45,21 @@ const Sidebar = () => {
         </StyledLogo>
 
         <ItemsBox>
+          {/* edit tag item */}
+          <li
+            className="sidebar__edit-item"
+            onClick={() =>
+              dispatch(toggleTagsModal({ type: "edit", view: true }))
+            }
+          >
+            <span>
+              <MdEdit />
+            </span>
+            <span>Edit Tags</span>
+          </li>
+
+          <hr />
+
           {/* note item */}
           <li onClick={() => dispatch(toggleMenu(false))}>
             <NavLink
@@ -59,21 +74,6 @@ const Sidebar = () => {
               </span>
               <span>All Notes</span>
             </NavLink>
-          </li>
-
-          <hr />
-
-          {/* edit tag item */}
-          <li
-            className="sidebar__edit-item"
-            onClick={() =>
-              dispatch(toggleTagsModal({ type: "edit", view: true }))
-            }
-          >
-            <span>
-              <MdEdit />
-            </span>
-            <span>Edit Tags</span>
           </li>
 
           {/* tag items */}
