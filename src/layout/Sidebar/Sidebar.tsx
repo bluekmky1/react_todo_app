@@ -61,6 +61,19 @@ const Sidebar = () => {
             </NavLink>
           </li>
 
+          {/* edit tag item */}
+          <li
+            className="sidebar__edit-item"
+            onClick={() =>
+              dispatch(toggleTagsModal({ type: "edit", view: true }))
+            }
+          >
+            <span>
+              <MdEdit />
+            </span>
+            <span>Edit Tags</span>
+          </li>
+
           {/* tag items */}
           {tagsList?.map(({ tag, id }) => (
             <li key={id} onClick={() => dispatch(toggleMenu(false))}>
@@ -78,19 +91,6 @@ const Sidebar = () => {
               </NavLink>
             </li>
           ))}
-
-          {/* edit tag item */}
-          <li
-            className="sidebar__edit-item"
-            onClick={() =>
-              dispatch(toggleTagsModal({ type: "edit", view: true }))
-            }
-          >
-            <span>
-              <MdEdit />
-            </span>
-            <span>Edit Notes</span>
-          </li>
 
           {/* other items */}
           {items.map(({ icon, title, id }) => (
