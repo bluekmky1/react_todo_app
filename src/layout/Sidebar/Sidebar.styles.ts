@@ -21,14 +21,14 @@ export const MainBox = styled.div<{ openMenu: string }>`
   width: 250px;
   height: 100%;
   min-height: 100vh;
-  background-color: #FDEFC3;
+  background-color: #fdefc3;
 
   @media screen and (max-width: 950px) {
     transition: 350ms transform ease-in-out;
     position: absolute;
     z-index: 10;
     transform: ${({ openMenu }) =>
-    openMenu === "open" ? "translateX(0%)" : "translateX(-100%)"};
+      openMenu === "open" ? "translateX(0%)" : "translateX(-100%)"};
   }
 `;
 
@@ -37,7 +37,6 @@ export const StyledLogo = styled.div`
   align-items: center;
   padding: 24px 20px;
   margin-bottom: 20px;
-  box-shadow: 0px 2px 4px 0px rgba(255, 255, 255, 0.3);
   img {
     margin-right: 10px;
   }
@@ -48,6 +47,12 @@ export const StyledLogo = styled.div`
 `;
 
 export const ItemsBox = styled.ul`
+  hr {
+    background: #cdcdcd;
+    height: 2px;
+    border: 0;
+  }
+
   li {
     width: 100%;
     height: 60px;
