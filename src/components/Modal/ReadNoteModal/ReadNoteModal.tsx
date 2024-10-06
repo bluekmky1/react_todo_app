@@ -1,22 +1,33 @@
-import React from 'react'
-import { FaTimes } from 'react-icons/fa';
-import { useAppDispatch } from '../../../hooks/redux';
-import { readNote } from '../../../store/notesList/notesListSlice';
-import { Note } from '../../../types/note'
-import { DeleteBox, FixedContainer } from '../Modal.styles';
-import { Box } from './ReadNoteModal.styles';
-import parse from 'html-react-parser';
+import React, { useRef } from "react";
+import { FaTimes } from "react-icons/fa";
+import { useAppDispatch } from "../../../hooks/redux";
+import { readNote } from "../../../store/notesList/notesListSlice";
+import { Note } from "../../../types/note";
+import { DeleteBox, FixedContainer } from "../Modal.styles";
+import { Box } from "./ReadNoteModal.styles";
+import parse from "html-react-parser";
 
 interface ReadNoteModalProps {
   note: Note;
-  type: string
+  type: string;
 }
 
 const ReadNoteModal = ({ note, type }: ReadNoteModalProps) => {
   const dispatch = useAppDispatch();
 
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  const backgroundClickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target === backgroundRef.current) {
+      dispatch(readNote({ type, id: note.id }));
+    }
+  };
+
   return (
-    <FixedContainer>
+    <FixedContainer
+      ref={backgroundRef}
+      onClick={(e) => backgroundClickHandler(e)}
+    >
       <Box style={{ backgroundColor: note.color }}>
         <DeleteBox
           onClick={() => dispatch(readNote({ type, id: note.id }))}
@@ -24,11 +35,11 @@ const ReadNoteModal = ({ note, type }: ReadNoteModalProps) => {
         >
           <FaTimes />
         </DeleteBox>
-        <div className='readNote__title'>{note.title}</div>
-        <div className='readNote__content'>{parse(note.content)}</div>
+        <div className="readNote__title">{note.title}</div>
+        <div className="readNote__content">{parse(note.content)}</div>
       </Box>
     </FixedContainer>
-  )
-}
+  );
+};
 
-export default ReadNoteModal
+export default ReadNoteModal;

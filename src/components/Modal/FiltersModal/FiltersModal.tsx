@@ -1,9 +1,9 @@
-import React from 'react'
-import { FaTimes } from 'react-icons/fa';
-import { useAppDispatch } from '../../../hooks/redux';
-import { toggleFiltersModal } from '../../../store/modal/modalSlice';
-import { DeleteBox, FixedContainer } from '../Modal.styles';
-import { Box, Container, TopBox } from './FilterModal.styles';
+import React, { useRef } from "react";
+import { FaTimes } from "react-icons/fa";
+import { useAppDispatch } from "../../../hooks/redux";
+import { toggleFiltersModal } from "../../../store/modal/modalSlice";
+import { DeleteBox, FixedContainer } from "../Modal.styles";
+import { Box, Container, TopBox } from "./FilterModal.styles";
 
 interface FiltersModalProps {
   handleFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,12 +11,26 @@ interface FiltersModalProps {
   filter: string;
 }
 
-const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) => {
-
+const FiltersModal = ({
+  handleFilter,
+  handleClear,
+  filter,
+}: FiltersModalProps) => {
   const dispatch = useAppDispatch();
 
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  const backgroundClickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target === backgroundRef.current) {
+      dispatch(toggleFiltersModal(false));
+    }
+  };
+
   return (
-    <FixedContainer>
+    <FixedContainer
+      ref={backgroundRef}
+      onClick={(e) => backgroundClickHandler(e)}
+    >
       <Container>
         <DeleteBox
           onClick={() => dispatch(toggleFiltersModal(false))}
@@ -25,15 +39,15 @@ const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) 
           <FaTimes />
         </DeleteBox>
         <TopBox>
-          <div className='filters__title'>정렬</div>
+          <div className="filters__title">정렬</div>
           <small onClick={handleClear} className="filters__delete">
             CLEAR
           </small>
         </TopBox>
 
         <Box>
-          <div className='filters__subtitle'>PRIORITY</div>
-          <div className='filters__check'>
+          <div className="filters__subtitle">PRIORITY</div>
+          <div className="filters__check">
             <input
               type="radio"
               name="filter"
@@ -42,9 +56,9 @@ const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) 
               checked={filter === "low"}
               onChange={(e) => handleFilter(e)}
             />
-            <label htmlFor='low'>Low to High</label>
+            <label htmlFor="low">Low to High</label>
           </div>
-          <div className='filters__check'>
+          <div className="filters__check">
             <input
               type="radio"
               name="filter"
@@ -53,15 +67,13 @@ const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) 
               checked={filter === "high"}
               onChange={(e) => handleFilter(e)}
             />
-            <label htmlFor='low'>High to Low</label>
+            <label htmlFor="low">High to Low</label>
           </div>
         </Box>
 
-
-
         <Box>
-          <div className='filters__subtitle'>DATE</div>
-          <div className='filters__check'>
+          <div className="filters__subtitle">DATE</div>
+          <div className="filters__check">
             <input
               type="radio"
               name="filter"
@@ -70,9 +82,9 @@ const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) 
               checked={filter === "latest"}
               onChange={(e) => handleFilter(e)}
             />
-            <label htmlFor='new'>Sort by Latest</label>
+            <label htmlFor="new">Sort by Latest</label>
           </div>
-          <div className='filters__check'>
+          <div className="filters__check">
             <input
               type="radio"
               name="filter"
@@ -81,9 +93,9 @@ const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) 
               checked={filter === "created"}
               onChange={(e) => handleFilter(e)}
             />
-            <label htmlFor='create'>Sort by Created</label>
+            <label htmlFor="create">Sort by Created</label>
           </div>
-          <div className='filters__check'>
+          <div className="filters__check">
             <input
               type="radio"
               name="filter"
@@ -92,14 +104,12 @@ const FiltersModal = ({ handleFilter, handleClear, filter }: FiltersModalProps) 
               checked={filter === "edited"}
               onChange={(e) => handleFilter(e)}
             />
-            <label htmlFor='edit'>Sort by Edited</label>
+            <label htmlFor="edit">Sort by Edited</label>
           </div>
         </Box>
-
-
       </Container>
     </FixedContainer>
-  )
-}
+  );
+};
 
-export default FiltersModal
+export default FiltersModal;

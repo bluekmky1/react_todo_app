@@ -1,26 +1,29 @@
-import React, { useState } from 'react'
-import { FaMinus, FaPlus, FaTimes } from 'react-icons/fa';
-import { v4 } from 'uuid';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { toggleTagsModal } from '../../../store/modal/modalSlice';
-import { removeTags } from '../../../store/notesList/notesListSlice';
-import { addTags, deleteTags } from '../../../store/tags/tagsSlice';
-import { Tag } from '../../../types/tag';
-import getStandardName from '../../../utils/getStandardName';
-import { DeleteBox, FixedContainer } from '../Modal.styles';
-import { Box, StyledInput, TagsBox } from './TagModal.styles';
+import React, { useRef, useState } from "react";
+import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
+import { v4 } from "uuid";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { toggleTagsModal } from "../../../store/modal/modalSlice";
+import { removeTags } from "../../../store/notesList/notesListSlice";
+import { addTags, deleteTags } from "../../../store/tags/tagsSlice";
+import { Tag } from "../../../types/tag";
+import getStandardName from "../../../utils/getStandardName";
+import { DeleteBox, FixedContainer } from "../Modal.styles";
+import { Box, StyledInput, TagsBox } from "./TagModal.styles";
+import { toggleMenu } from "../../../store/menu/menuSlice";
 
 interface TagsModalProps {
   type: string;
   addedTags?: Tag[];
-  handleTags?: (tag: string, type: string) => void
+  handleTags?: (tag: string, type: string) => void;
 }
 
 const TagsModal = ({ type, addedTags, handleTags }: TagsModalProps) => {
   const dispatch = useAppDispatch();
-  const { tagsList } = useAppSelector((state) => state.tags);
-  const [inputText, setInputText] = useState('');
 
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  const { tagsList } = useAppSelector((state) => state.tags);
+  const [inputText, setInputText] = useState("");
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,23 +33,32 @@ const TagsModal = ({ type, addedTags, handleTags }: TagsModalProps) => {
     }
 
     dispatch(addTags({ tag: inputText.toLocaleLowerCase(), id: v4() }));
-    setInputText('');
-  }
+    setInputText("");
+  };
 
   const deleteTagsHandler = (tag: string, id: string) => {
     dispatch(deleteTags(id));
     dispatch(removeTags({ tag }));
-  }
+  };
+
+  const backgroundClickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target === backgroundRef.current) {
+      dispatch(toggleTagsModal({ type, view: false }));
+    }
+  };
 
   return (
-    <FixedContainer>
+    <FixedContainer
+      ref={backgroundRef}
+      onClick={(e) => backgroundClickHandler(e)}
+    >
       <Box>
-        <div className='editTags__header'>
-          <div className='editTags__title'>
+        <div className="editTags__header">
+          <div className="editTags__title">
             {type === "add" ? "ADD" : "Edit"} Tags
           </div>
           <DeleteBox
-            className='editTags__close'
+            className="editTags__close"
             onClick={() => dispatch(toggleTagsModal({ type, view: false }))}
           >
             <FaTimes />
@@ -64,9 +76,7 @@ const TagsModal = ({ type, addedTags, handleTags }: TagsModalProps) => {
         <TagsBox>
           {tagsList.map(({ tag, id }) => (
             <li key={id}>
-              <div className='editTags__tag'>
-                {getStandardName(tag)}
-              </div>
+              <div className="editTags__tag">{getStandardName(tag)}</div>
               {type === "edit" ? (
                 <DeleteBox onClick={() => deleteTagsHandler(tag, id)}>
                   <FaTimes />
@@ -77,11 +87,9 @@ const TagsModal = ({ type, addedTags, handleTags }: TagsModalProps) => {
                     (addedTag: Tag) => addedTag.tag === tag.toLowerCase()
                   ) ? (
                     <FaMinus onClick={() => handleTags!(tag, "remove")} />
-                  ) :
-                    (
-                      <FaPlus onClick={() => handleTags!(tag, "add")} />
-                    )
-                  }
+                  ) : (
+                    <FaPlus onClick={() => handleTags!(tag, "add")} />
+                  )}
                 </DeleteBox>
               )}
             </li>
@@ -89,7 +97,7 @@ const TagsModal = ({ type, addedTags, handleTags }: TagsModalProps) => {
         </TagsBox>
       </Box>
     </FixedContainer>
-  )
-}
+  );
+};
 
-export default TagsModal
+export default TagsModal;

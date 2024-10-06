@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { Container, MainBox, StyledLogo, ItemsBox } from "./Sidebar.styles";
@@ -17,6 +17,7 @@ const items = [
 const Sidebar = () => {
   const dispatch = useAppDispatch();
 
+  const backgroundRef = useRef<HTMLDivElement>(null);
   const { isOpen } = useAppSelector((state) => state.menu);
   const { tagsList } = useAppSelector((state) => state.tags);
 
@@ -26,8 +27,18 @@ const Sidebar = () => {
     return null;
   }
 
+  const backgroundClickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target === backgroundRef.current) {
+      dispatch(toggleMenu(false));
+    }
+  };
+
   return (
-    <Container openMenu={isOpen ? "open" : ""}>
+    <Container
+      ref={backgroundRef}
+      onClick={(e) => backgroundClickHandler(e)}
+      openMenu={isOpen ? "open" : ""}
+    >
       <MainBox openMenu={isOpen ? "open" : ""}>
         <StyledLogo>
           <h1>Keep</h1>
