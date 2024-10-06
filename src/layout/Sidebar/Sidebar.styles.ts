@@ -13,7 +13,7 @@ export const Container = styled.nav<{ openMenu: string }>`
       openMenu === "open" ? "normal" : "hidden"};
     background-color: ${({ openMenu }) =>
       openMenu === "open" ? "rgba(0, 0, 0, 0.8)" : "rgba(0, 0, 0, 0)"};
-    cursor: pointer;
+    cursor: ${({ openMenu }) => (openMenu === "open" ? "pointer" : "")};
   }
 `;
 
@@ -30,6 +30,7 @@ export const MainBox = styled.div<{ openMenu: string }>`
     transform: ${({ openMenu }) =>
       openMenu === "open" ? "translateX(0%)" : "translateX(-100%)"};
   }
+  cursor: default;
 `;
 
 export const StyledLogo = styled.div`
