@@ -11,8 +11,10 @@ export const Container = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-bottom: 5px;
+    cursor: default;
     svg {
       font-size: 1.3rem;
+      cursor: pointer;
     }
   }
 `;

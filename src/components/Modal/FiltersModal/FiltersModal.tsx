@@ -32,11 +32,8 @@ const FiltersModal = ({
       onClick={(e) => backgroundClickHandler(e)}
     >
       <Container>
-        <DeleteBox
-          onClick={() => dispatch(toggleFiltersModal(false))}
-          className="filters__close"
-        >
-          <FaTimes />
+        <DeleteBox className="filters__close">
+          <FaTimes onClick={() => dispatch(toggleFiltersModal(false))} />
         </DeleteBox>
         <TopBox>
           <div className="filters__title">정렬</div>
